@@ -1,0 +1,24 @@
+{
+  "name": "popcorn-tv",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Faris Aziz",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon --exec node src/index.js"
+  },
+  "dependencies": {
+    "apollo-server-express": "^3.6.1",
+    "apollo-server-plugin-response-cache": "^3.5.0",
+    "cross-fetch": "^3.1.4",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "graphql": "^16.2.0",
+    "graphql-import": "^1.0.2",
+    "ramda": "^0.27.1",
+    "webtorrent": "^1.5.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

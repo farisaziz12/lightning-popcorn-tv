@@ -1,0 +1,9 @@
+# Dependency directories
+node_modules
+
+#mac
+.DS_Store
+
+dist
+build
+.env

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <style>
+            html {height: 100%; width: 100%;}
+            *,body {margin:0; padding:0;}
+            canvas { position: absolute; z-index: 2; }
+            body { width: 100%; height: 100%;}
+        </style>
+    </head>
+    <body>
+        <script src="./js/polyfills.js"></script>
+        <script src="./js/lightning.es5.min.js"></script>
+        <script src="./js/appBundle.es5.js"></script>
+
+        <script>
+            var appSettings = {
+  "stage": {
+    "clearColor": "0x00000000",
+    "useImageWorker": true
+  },
+  "debug": true,
+  "name": "VOD Example",
+  "identifier": "com.metrological.app.vod-example",
+  "version": "1.0.5",
+  "icon": "./static/icon.jpg",
+  "id": "com.metrological.app.vod-example"
+}
+
+            var platformSettings = {
+  "proxy": false,
+  "path": "./static",
+  "proxyUrl": "//cdn.metrological.com/proxy",
+  "imageServerUrl": "//cdn.metrological.com/image",
+  "log": true,
+  "showVersion": false
+}
+
+            var appData = {}
+
+            var bundle = window.APP_com_metrological_app_vod_example;
+
+            // support rollup and esbuild
+            if (typeof bundle !== 'function') {
+              bundle = bundle.default;
+            }
+
+            var app = bundle(appSettings, platformSettings, appData)
+            document.body.appendChild(app.stage.getCanvas())
+
+        </script>
+    </body>
+</html>

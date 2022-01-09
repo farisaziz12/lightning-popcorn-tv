@@ -1,0 +1,13 @@
+{
+  "name": "Freeflix",
+  "description": "Freeflix",
+  "scripts": {
+    "dev": "lng dev",
+    "build": "lng build",
+    "clean:movies": "rm -rf /tmp/webtorrent/"
+  },
+  "dependencies": {
+    "@lightningjs/sdk": "^4.7.0",
+    "@lightningjs/ui": "^1.1.5"
+  }
+}

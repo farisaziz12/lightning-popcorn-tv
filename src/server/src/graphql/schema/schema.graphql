@@ -1,0 +1,79 @@
+type Query {
+  moviesSearch(arguments: MoviesArguments!): [Movie]!
+  moviesList(page: Int): [Movie]!
+  movieById(id: String!): Movie
+  getMovieFile(id: String!, quality: MovieQuality): MovieFile
+  destroyMovieTorrent(id: String!, quality: MovieQuality): MovieTorrentDestroy
+}
+
+type MovieTorrentDestroy {
+  isDestroyed: Boolean!
+}
+
+type MovieFile {
+  id: String
+  title: String
+  quality: String
+  filePath: String
+}
+
+type Movie {
+  id: String
+  imdbId: String
+  tmdbId: Int
+  title: String
+  year: String
+  originalLanguage: String
+  existingTranslations: [String]!
+  description: String
+  runtime: String
+  certification: String
+  trailerUrl: String
+  genres: [String]!
+  images: Image
+  rating: Int
+  torrents: [Torrent]!
+}
+
+type Torrent {
+  magnetUrl: String
+  quality: String
+  seeds: Int
+  peers: Int
+  fileSize: String
+  provider: String
+}
+
+type Image {
+  posterUrl: String
+  fanartUrl: String
+  bannerUrl: String
+}
+
+input MoviesArguments {
+    keyword: String!
+    page: Int
+    genre: GENRE
+    sort: SORT
+}
+
+enum GENRE {
+  ALL
+  ACTION
+}
+
+enum SORT {
+  TRENDING
+}
+
+enum MovieQuality {
+  UHD
+  FHD
+  HD
+  SD
+}
+
+enum CacheControlScope {
+  PUBLIC
+  PRIVATE
+}

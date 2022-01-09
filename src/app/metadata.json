@@ -1,0 +1,6 @@
+{
+  "name": "VOD Example",
+  "identifier": "com.metrological.app.vod-example",
+  "version": "1.0.5",
+  "icon": "./static/icon.jpg"
+}

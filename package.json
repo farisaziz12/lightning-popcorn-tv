@@ -1,0 +1,13 @@
+{
+  "name": "lightning-popcorn-tv",
+  "version": "1.0.0",
+  "description": "Get your popcorn and movies lightning fast",
+  "repository": "git@github.com:farisaziz12/lightning-popcorn-tv.git",
+  "author": "Faris Aziz <farisaziz12@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev:server": "sh ./scripts/dev.sh --server",
+    "dev:client": "sh ./scripts/dev.sh --client"
+  }
+}
