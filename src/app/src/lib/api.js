@@ -1,10 +1,11 @@
-const _baseUrl = 'http://192.168.1.172:4000'; //'https://api.themoviedb.org/3/';
+const _baseUrl = process.env.APP_SERVER_BASE_URL || 'http://localhost:4000'; //'https://api.themoviedb.org/3/';
+
 const _headers = {
     'Content-Type': 'application/json'
 };
 const _tmdbBaseUrl = 'https://api.themoviedb.org/3'
 const _params = {
-    'api_key': '66683917a94e703e14ca150023f4ea7c',
+    'api_key': process.env.APP_TMDB_API_KEY || '66683917a94e703e14ca150023f4ea7c',
 };
 
 const _executeRequest = (config, retryCounter = 0) => {
@@ -122,8 +123,6 @@ const _fetchPageData = (queryTemplate, itemParams = {}) => {
 }
 
 export const getSearchResults = (query) => {
-    console.log(query.trim().toLowerCase())
-
     const gqlQuery = `
         query {
             moviesSearch(arguments: { keyword: "${query.trim().toLowerCase()}" }) {

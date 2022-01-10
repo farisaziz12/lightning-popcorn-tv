@@ -23,11 +23,19 @@ const startServer = async () => {
 
     app.use('/files', express.static('/tmp/webtorrent/'))
 
-    const ip = '192.168.1.172'
-    app.listen(4000, ip, () =>{
-        console.log(`🚀 Server ready at http://localhost:4000${graphQLServer.graphqlPath}`)
+
+    if (process.env.IP_ADDRESS){
+       app.listen(4000, process.env.IP_ADDRESS, () =>{
+            console.log(`🚀 Server ready at http://${process.env.IP_ADDRESS}:4000${graphQLServer.graphqlPath}`)
+        }
+        );
+    } else {
+        app.listen(4000, () =>{
+            console.log(`🚀 Server ready at http://localhost:4000${graphQLServer.graphqlPath}`)
+        }
+        );
     }
-    );
+
 }
 
 startServer();

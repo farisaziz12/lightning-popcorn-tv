@@ -239,7 +239,12 @@ export default class Player extends Page {
         this.tag('CurrentTime').text = formattedCurrentTime;
         this.tag('TimeLeft').text = formattedTimeLeft;
     }
- 
+
+   $videoCanPlay() {
+        const dialog = this.tag('Dialog');
+        dialog.close()
+    }
+
     // this will be invoked when the video ends
     $videoPlayerEnded() {
  

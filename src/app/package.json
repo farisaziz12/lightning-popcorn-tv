@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "lng dev",
     "build": "lng build",
+    "serve": "lng build && lng serve",
     "clean:movies": "rm -rf /tmp/webtorrent/"
   },
   "dependencies": {

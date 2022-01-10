@@ -7,7 +7,10 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev:server": "sh ./scripts/dev.sh --server",
-    "dev:client": "sh ./scripts/dev.sh --client"
+    "start:server": "sh ./scripts/start.sh --server",
+    "start:client": "sh ./scripts/start.sh --client-serve",
+    "dev:client": "sh ./scripts/start.sh --client-dev",
+    "up": "cd ./src/app && docker-compose up || exit",
+    "down": "cd ./src/app && docker-compose down || exit"
   }
 }

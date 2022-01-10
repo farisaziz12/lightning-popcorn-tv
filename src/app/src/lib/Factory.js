@@ -7,7 +7,6 @@ export const createPageComponents = (strips) => {
 }
 
 export const createItemCollection = (items, media_type = 'tv') => {
-    console.log({items})
     return items.map((item) => {
         return {item: applyItemModel({media_type, ...item})}
     })
