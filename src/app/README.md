@@ -1,6 +1,5 @@
 # VOD Example
 
-## com.metrological.app.vod-example
 
 ### Getting started
 
