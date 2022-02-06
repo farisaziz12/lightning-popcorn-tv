@@ -11,6 +11,6 @@
     "start:client": "sh ./scripts/start.sh --client-serve",
     "dev:client": "sh ./scripts/start.sh --client-dev",
     "up": "cd ./src/app && docker-compose up || exit",
-    "down": "cd ./src/app && docker-compose down || exit"
+    "clean:movies": "cd ./src/app && yarn clean:movies || exit"
   }
 }
