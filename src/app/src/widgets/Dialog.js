@@ -25,7 +25,7 @@ export default class Dialog extends Lightning.Component {
         return {
             zIndex: 9, w: 1920, h: 1080, rect: true, color: Colors('black').alpha(0.8).get(),
             Background: {
-                x: 610, y:300, w: 700, h: 480, rtt: true, shader: {type: Lightning.shaders.RoundedRectangle, radius: 22},
+                x: 610, y:300, w: 1000, h: 480, rtt: true, shader: {type: Lightning.shaders.RoundedRectangle, radius: 22},
                 FastBlur: {
                     w: 700, h: 480, zIndex: 9, type: Lightning.components.FastBlurComponent, amount: 3, content: {
                         MirrorContent: {color: Colors('white').darker(0.4).get()}
@@ -33,12 +33,12 @@ export default class Dialog extends Lightning.Component {
                 },
             },
             Wrapper: {
-                x: 610, y:300, w: 700, h: 480, 
+                x: 610, y:300, w: 1000, h: 480,
                 Labels: {w: 660, x: 350, y: 220, mountX: 0.5, mountY: 1, flex: {direction: 'column'},
                     Header: {mountX: 0.5, x: w => w / 2, text: {text: this.bindProp('header'), fontSize: 54, fontFace: 'Regular'}},
                     Message: {mountX: 0.5, x: w => w / 2, y: 50, w: 620, color: Colors('white').alpha(0.65).get(), text: {text: this.bindProp('message'), wordWrap: true, fontSize: 36, lineHeight: 48, textAlign: 'center', fontFace: 'MediumItalic'}},
                 },
-                Buttons: {type: List, mountX: 0.5, y: 320, x: 350, spacing: 50, autoResize: true, direction: 'row', signals: {onItemsRepositioned: true}}
+                Buttons: {type: List, mountX: 0.5, y: 320, x: 350, spacing: 40, autoResize: true, direction: 'row', signals: {onItemsRepositioned: true}}
             }
         }
     }
@@ -64,8 +64,9 @@ export default class Dialog extends Lightning.Component {
 
     _handleEnter() {
         const index = this.tag('Buttons').index;
+
         const current = this._actions[index];
-        if(!!(current && current.action && current.action.call && current.action.apply)) {
+        if(current?.action?.call?.action.apply) {
             current.action.call();
         }
     }
@@ -78,10 +79,11 @@ export default class Dialog extends Lightning.Component {
                 action: () => {this.close()}
             });
         }
+
         this._actions = actions;
         this.patch({
             header,
-            message: message,
+            message,
             Wrapper: {
                 Buttons: {items: actions.map((action) => {
                     return {type: Key, w: 170, h: 80, data: {label: action.label}}

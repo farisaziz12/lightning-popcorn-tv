@@ -13,7 +13,7 @@ const _executeRequest = (config, retryCounter = 0) => {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open(method, url, true);
-        xhr.timeout = timeout || 10000;
+        xhr.timeout = timeout || 10_000;
 
         for(let key in headers) {
             xhr.setRequestHeader(key, headers[key]);
@@ -231,11 +231,18 @@ export const getDetailPage = (mediaType, mediaId) => {
         })
 }
 
-export const getVideo = (mediaType, mediaId) => {
+export const getVideo = (mediaType, mediaId, mediaQuality = '1080p') => {
+
+    const qualityMappings = {
+        "2160p": "UHD",
+        "1080p": "FHD",
+        "720p": "HD",
+        "480p": "SD",
+    }
 
     const query = `
     query {
-        getMovieFile(id: "${mediaId}") {
+        getMovieFile(id: "${mediaId}", quality: ${qualityMappings[mediaQuality]}) {
             id
             title
             filePath
@@ -250,10 +257,18 @@ export const getVideo = (mediaType, mediaId) => {
         })
 }
 
-export const destroyMovieTorrent = (movieId) => {
+export const destroyMovieTorrent = (movieId, quality = '1080p') => {
+
+    const qualityMappings = {
+        "2160p": "UHD",
+        "1080p": "FHD",
+        "720p": "HD",
+        "480p": "SD",
+    }
+
     const query = `
     query {
-        destroyMovieTorrent(id: "${movieId}", quality: FHD) {
+        destroyMovieTorrent(id: "${movieId}", quality: ${qualityMappings[quality]}) {
             isDestroyed
         }
     }

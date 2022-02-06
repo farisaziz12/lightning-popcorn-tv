@@ -39,7 +39,7 @@ export default class Player extends Page {
                     y: 20,
                     text: {
                         fontSize: 24,
-                        text: '1:20:30',
+                        text: '00:00:00',
                         lineHeight: 30,
                     }
                 },
@@ -308,7 +308,10 @@ export default class Player extends Page {
     initializeVideo(videoUrl){
         VideoPlayer._videoEl.style.backgroundColor = 'black';
         VideoPlayer.consumer(this)
-        VideoPlayer.open(videoUrl);
+
+        setTimeout(()=> {
+            VideoPlayer.open(videoUrl);
+        }, 3000)
     }
 
     _inactive() {
@@ -334,7 +337,7 @@ export default class Player extends Page {
 
 
      _handleBack () {
-         destroyMovieTorrent(this.params.mediaId).then(
+         destroyMovieTorrent(this.params.mediaId, this.params.mediaQuality).then(
             (data) => {
                 console.log(data)
             }

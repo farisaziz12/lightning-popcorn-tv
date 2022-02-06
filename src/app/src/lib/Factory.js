@@ -13,7 +13,7 @@ export const createItemCollection = (items, media_type = 'tv') => {
 };
 
 export const applyItemModel = (item) => {
-    const {id, title, name, media_type = 'tv', number_of_episodes, number_of_seasons, genres, runtime, description, images: { posterUrl, bannerUrl, fanartUrl }} = item;
+    const {id, title, name, media_type = 'tv', number_of_episodes, number_of_seasons, genres, runtime, description, torrents, images: { posterUrl, bannerUrl, fanartUrl }} = item;
     return {
         id,
         media_type,
@@ -25,7 +25,8 @@ export const applyItemModel = (item) => {
         description,
         poster: posterUrl,
         large_poster: posterUrl,
-        backdrop: bannerUrl
+        backdrop: bannerUrl,
+        torrents
     }
 }
 

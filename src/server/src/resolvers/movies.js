@@ -4,6 +4,13 @@ const { propOr, prop, path } = require('ramda')
 
 const client = new WebTorrent();
 
+const qualityPreferences = {
+    "2160p": 4,
+    "1080p": 3,
+    "720p": 2,
+    "480p": 1,
+}
+
 const formatMovie = (movie) => ({
     id: prop('_id', movie),
     imdbId: prop('imdb_id', movie),
@@ -36,7 +43,15 @@ const formatMovie = (movie) => ({
             }))
         })
 
-        return resolvedTorrents.flat()
+        const flattenedTorrents = resolvedTorrents.flat()
+
+        const sortedTorrents = flattenedTorrents.sort((a, b) => {
+            const aQuality = qualityPreferences[a.quality]
+            const bQuality = qualityPreferences[b.quality]
+            return bQuality - aQuality
+        })
+
+        return sortedTorrents
     }
 })
 
@@ -128,7 +143,9 @@ const getMovieFile = async (parent, { id, quality = "FHD" }, context, info) => {
         const selectedTorrent = torrents.find(torrent => torrent.quality === selectedQuality)
 
         if (!selectedTorrent) {
-            throw {response: {data: "No torrent found for the selected quality"}}
+            console.log(`No torrent found for quality ${quality}`)
+            // throw {response: {data: "No torrent found for the selected quality"}}
+            return
         }
 
         const getFilePath = (torrent) => {
@@ -136,7 +153,8 @@ const getMovieFile = async (parent, { id, quality = "FHD" }, context, info) => {
 
             // TODO: handle finding mp4 if none found for selected quality
             if (!file) {
-                throw {response: {data: "No mp4 file found for the selected quality"}}
+                // throw {response: {data: "No mp4 file found for the selected quality"}}
+                return
             }
 
             return encodeURI(file.path.replace('/tmp/webtorrent', ''))
@@ -164,11 +182,11 @@ const getMovieFile = async (parent, { id, quality = "FHD" }, context, info) => {
                 filePath
             }
         } catch (error){
-            throw new Error(error.response.data);
+            // throw new Error(error.response.data);
         }
     } catch (error) {
         console.log(error)
-        throw new Error(error.response.data);
+        // throw new Error(error.response.data);
     }
 
 }

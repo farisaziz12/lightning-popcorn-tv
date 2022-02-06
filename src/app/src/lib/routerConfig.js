@@ -9,7 +9,6 @@ const routes = [
         on: async (page) => {
             getHomePage()
                 .then((response) => {
-                    console.log({response})
                     page.addStrips(createPageComponents(response));
                     return true;
                 })
@@ -71,10 +70,10 @@ const routes = [
         widgets: ['detail']
     },
     {
-        path: 'player/:mediaType/:mediaId',
+        path: 'player/:mediaType/:mediaId/:mediaQuality',
         component: Player,
-        before: async (page, {mediaType, mediaId}) => {
-            getVideo(mediaType, mediaId)
+        before: async (page, {mediaType, mediaId, mediaQuality}) => {
+            getVideo(mediaType, mediaId, mediaQuality)
                 .then((response) => {
                     const dataItem = applyPlayerModel(response);
                     page.setData(dataItem);

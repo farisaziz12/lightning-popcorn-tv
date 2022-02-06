@@ -1,6 +1,8 @@
 import { Lightning, Img, Utils, Router } from "@lightningjs/sdk";
+import { List } from "@lightningjs/ui";
 import { Button } from "../components";
-
+import { Key } from "../components/Key.js";
+import { Dialog } from "../widgets";
 export default class Detail extends Lightning.Component {
     static _template() {
         return {
@@ -12,14 +14,15 @@ export default class Detail extends Lightning.Component {
                     DescriptionFull: {alpha: 0, w: 960, renderOffscreen: true, text: {fontFace: 'Regular', wrap: true, maxLines: 10, fontSize: 36, lineHeight: 44}}
                 }
             },
+            PlayButtons: {type: List, mountX: 0.5, y: 800, x: 600, spacing: 40, autoResize: true, direction: 'row', signals: {onItemsRepositioned: true}},
             MoreInfo: {
                 alpha: 0.001, mountX: 1, x: 1690, y: 90, w: 300, h: 450,
                 LargePoster: {
                     shader: {type: Lightning.shaders.RoundedRectangle, radius: 18}
                 },
-                PlayButton: {
-                    type: Button, y: 780, w: 90, h: 90, text: { fontSize: 24, text: 'Watch Now', lineHeight: 30}, icon: 'images/play.png', text: 'Watch Now', content: {w: 70, h: 70}
-                },
+                // PlayButton: {
+                //     type: Button, y: 780, w: 90, h: 90, content: {w: 70, h: 70, text:"Play"}
+                // },
                 Runtime: {
                     y: 805, x: 120, text: {fontFace: 'Bold', fontSize: 32, lineHeight: 28},
                 }
@@ -27,10 +30,10 @@ export default class Detail extends Lightning.Component {
             MoreInfo2: {
                 alpha: 0.001, x: 230, y: 40, flex: {direction: 'column'},
                 TitleInfo: {text: {fontFace: 'MediumItalic', fontSize: 32, lineHeight: 28}}
-            }
+            },
         }
     }
-    
+
     _init() {
         const poster = this.tag('LargePoster');
         const moreInfo = this.tag('MoreInfo');
@@ -69,6 +72,7 @@ export default class Detail extends Lightning.Component {
             {p: 'alpha', v: {0: 0.001, 1: 1}},
             {p: 'x', v: {0: 270, 1: 230}}
         ]});
+
     }
 
     show(data) {
@@ -89,7 +93,7 @@ export default class Detail extends Lightning.Component {
 
     showMore(data) {
         this._loadingData = true;
-        let { number_of_episodes, number_of_seasons, media_type, large_poster, backdrop, genres, runtime = ''} = data;
+        let { number_of_episodes, number_of_seasons, media_type, large_poster, backdrop, genres, runtime = '', torrents, id} = data;
 
         const titleInfo = [media_type.charAt(0).toUpperCase() + media_type.slice(1)];
 
@@ -129,6 +133,12 @@ export default class Detail extends Lightning.Component {
             }
         });
         this._data = data;
+
+        this.patch({
+            PlayButtons: {items: torrents.map(({quality}) => {
+                    return {type: Key, w: 170, h: 80, data: {label: quality}}
+            })}
+        })
     }
 
     _unfocus() {
@@ -153,15 +163,17 @@ export default class Detail extends Lightning.Component {
     }
 
     _handleBack() {
+        this.tag('PlayButtons').clear();
         Router.back();
     }
 
     _handleEnter() {
-        const {id, media_type} = this._data;
-        Router.navigate(`player/${media_type}/${id}`);
+        const { id, media_type, torrents } = this._data;
+        const quality = torrents[this.tag('PlayButtons').index].quality;
+        Router.navigate(`player/${media_type}/${id}/${quality}`);
     }
 
     _getFocused() {
-        return this.tag('PlayButton');
+        return this.tag('PlayButtons');
     }
 }
