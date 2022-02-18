@@ -72,27 +72,27 @@ const searchMovies = async (parent, { arguments }, context, info) => {
 
 const getMoviesList = async (parent, { page = 1 }, context, info) => {
     try {
-        const moviesResp = await fetch(`${process.env.POPCORN_API_BASE_URL_TWO}/list?sort=seeds&short=1&cb=&quality=720p,1080p&page=${page}`)
-        const moviesJson = await moviesResp.json();
-
-        const formattedMovies = propOr([], 'MovieList', moviesJson).map(movie => ({
+        const moviesResp = await Promise.all([fetch(`${process.env.POPCORN_API_BASE_URL_ONE}/movies/${page}`), fetch(`${process.env.POPCORN_API_BASE_URL_ONE}/movies/${page + 1}`)])
+        const [pageOne, pageTwo] = await Promise.all(moviesResp.map(resp => resp.json()))
+        const moviesJson =[...pageOne, ...pageTwo]
+        const formattedMovies = moviesJson.map(movie => ({
             genres: propOr([], 'genres', movie),
-            id: prop('imdb', movie),
-            imdbId: prop('imdb', movie),
-            description: prop('description', movie),
+            id: prop('imdb_id', movie),
+            imdbId: prop('imdb_id', movie),
+            description: prop('synopsis', movie),
             images: {
-                posterUrl: prop('poster_med', movie),
-                bannerUrl: prop('poster_big', movie),
+                posterUrl: path(['images', 'poster'], movie),
+                bannerUrl: prop('images', 'banner', movie),
             },
             runtime: () => {
                 const runtime = prop('runtime', movie)
                 if (!runtime) return null
-                return runtime * 10
+                return runtime
             },
             rating: () => {
-                const rating = prop('rating', movie)
+                const rating = path(['rating', 'percentage'], movie)
                 if (!rating) return null
-                return rating * 10
+                return rating
             },
             title: prop('title', movie),
             year: prop('year', movie),
