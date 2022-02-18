@@ -10,7 +10,6 @@ services:
     environment: # environment variables
       # - IP_ADDRESS=192.168.1.172
       - POPCORN_API_BASE_URL_ONE=http://popcorn-ru.tk
-      - POPCORN_API_BASE_URL_TWO=https://api.apipop.net
     ports:
       - '4000:4000' # map the ports as <host-port>:<container-port . The container-port should be the same as the PORT defined in environment.
     command: sh -c "yarn serve"
