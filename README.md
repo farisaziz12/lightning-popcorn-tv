@@ -10,6 +10,14 @@ To get the app running run
 ```bash
   yarn up
 ```
+or 
+```bash
+# first terminal
+yarn start:server
+
+# second terminal
+yarn start:client
+```
 
 This should take ~3 min. Once the containers are complete the TV app should be available at http://localhost:8080/
 
